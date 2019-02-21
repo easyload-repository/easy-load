@@ -1,0 +1,14 @@
+server:
+  port: 7788
+  connection-timeout: 120000
+spring:
+  servlet:
+    multipart:
+      max-file-size: 2MB
+  activemq:
+    broker-url: tcp://10.222.49.18:61616?wireFormat.maxInactivityDuration=0
+    in-memory: true
+    pool:
+      enabled: false
+script:
+  rootPath: D:\loadtest

@@ -1,0 +1,65 @@
+def mvnHome
+
+   pipeline{
+      agent any
+      stages{
+         stage('Pull Code') {
+            steps{
+               git branch: "EL_MVP_QA", url: 'http://10.222.49.18:8080/Leon/el_monitor.git'
+            }
+         }
+
+         stage('stop and remove old container, remove old image') {
+            steps{
+               script{
+                  try{
+                     bat(/docker stop el_monitor_uat/)
+                  }catch(e){
+                     echo 'el_node container had already stopped.'
+                  }
+
+                  try{
+                     bat(/docker rm el_monitor_uat/)
+                  }catch(e){
+                     echo 'el_node container had been deleted.'
+                  }
+
+                  try{
+                     bat(/docker rmi el_monitor_uat/)
+                  }catch(e){
+                     echo 'el_node image had been deleted.'
+                  }
+
+               }
+            }
+         }
+
+         stage('maven build new image, and run') {
+
+            steps {
+               dir("${WORKSPACE}"){
+                  script{
+                     mvnHome = tool 'maven'
+                     bat(/"${mvnHome}\bin\mvn" package dockerfile:build -Dmaven.test.skip=true -P uat/)
+                     bat(/docker run -d -p 7779:7779 --name el_monitor_uat el_monitor_uat/)
+                  }
+               }
+            }
+
+         }
+
+         stage('sleep 15s to test server API') {
+            steps{
+               script{
+                  sleep 2
+               }
+            }
+
+         }
+
+
+
+
+      }
+
+   }

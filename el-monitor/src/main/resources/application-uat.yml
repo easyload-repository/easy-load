@@ -1,0 +1,26 @@
+project:
+  version: 24.2.0.1
+
+server:
+  port: 7779
+  connection-timeout: 120000
+
+spring:
+  datasource:
+    url: jdbc:mysql://10.222.49.18:3306/easy_load_uat
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  activemq:
+    broker-url: tcp://10.222.49.18:61617?wireFormat.maxInactivityDuration=0
+    in-memory: true
+    pool:
+      enabled: false
+  jpa:
+    show-sql: false
+    database: MySQL
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  quartz:
+    auto-startup: true

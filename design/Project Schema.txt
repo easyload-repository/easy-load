@@ -1,0 +1,22 @@
+项目结构划分：
+1. Easy load frontend
+职责：UI display，UX
+
+2. Easy load backend
+职责：负责FE的逻辑，及任务分发。（如Email/Trigger Client）
+
+3. EasyLoadClient 
+职责：负责执行 loadtest 服务器脚本，初始化脚本Sharefolder文件夹
+
+4. EasySmartLoad 
+职责： 
+1. 负责通过ML计算出standard.
+2. 并且与结果生成report，这个report包括Domain level和High Level的。
+3. 历史Loadtest数据
+
+5. EasyLoadMonitor
+职责：
+1. 与Client集成，收集loadtest logs
+2. 与Splunk集成，提供接口 查询splunk
+3. 与OEM集成，提供接口查询CPU/内存等状态（Optional）
+
